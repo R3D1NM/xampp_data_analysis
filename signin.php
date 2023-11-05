@@ -6,7 +6,7 @@
     <title>sign in</title>
 </head>
 <body>
-    <h1>Restaurant Management Service</h1>
+    <a href="/main.php"><h1>Restaurant Management Service</h1></a>
     <h2>Sign in</h2>
     <div name="signin_form">
         <form method="POST" action="">

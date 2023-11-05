@@ -49,7 +49,7 @@
     <title>Main</title>
 </head>
 <body>
-    <h1>Restraunt Management Service</h1>
+    <h1>Restaurant Management Service</h1>
     <form method='POST' action=''>
         <button type="submit">logout</button>
     </form>
