@@ -124,6 +124,7 @@
 <body>
     <h1>Inventory Management</h1>
     <a href="/main.php">Back to Main</a>
+    <a href="/purchase.php">Purchase ingredient</a>
     <h2>Inventory List</h2>
     <table>
         <tr>

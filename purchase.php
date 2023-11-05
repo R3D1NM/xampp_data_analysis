@@ -85,6 +85,7 @@
 <body>
     <h1>Purchase Management</h1>
     <a href="/main.php">Back to Main</a>
+    <a href="/inventory.php">Check Inventory</a>
     <h2>Purchase List</h2>
     <table>
         <tr>
