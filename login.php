@@ -30,8 +30,9 @@
                     //verify password
                     if(password_verify($password,$hashed_password)){
                         //generate new session and set username
-                        $_SESSION['userid'] = $row['userid'];
+                        $_SESSION['userid'] = $row['id'];
                         $_SESSION['username']=$row['username'];
+
                         header("Location: /main.php");
                         exit();
                     } else {
