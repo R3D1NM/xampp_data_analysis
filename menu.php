@@ -71,13 +71,36 @@
     }
 
     //Update selected menu
-    if(isset($_POST['mode']) && $_POST['mode']==="update"){
-        
+    if (isset($_POST['mode']) && $_POST['mode'] === "update") {
+        $name = $_POST['name'];
+        $price = $_POST['price'];
+        $veganism = $_POST['veganism'];
+        $update_id = $_POST['update_id'];
+
+        // Update the selected menu in the menu list
+        foreach ($menu_list as &$menu) {
+            if ($menu['id'] == $update_id) {
+                $menu['name'] = $name;
+                $menu['price'] = $price;
+                $menu['veganism'] = $veganism;
+                break;
+            }
+        }
+    
+        // Update the selected menu in the Dishes table
+        // $update_query = "UPDATE Dishes SET name = ?, price = ?, veganism = ? WHERE id = ?";
+        // if ($stmt = mysqli_prepare($db, $update_query)) {
+        //     mysqli_stmt_bind_param($stmt, "sssi", $name, $price, $veganism, $update_id);
+        //     mysqli_stmt_execute($stmt);
+        //     header("Location: menu.php");
+        // } else {
+        //     echo "ERROR: Could not prepare update query" . mysqli_error($db);
+        // }
+        $mode="create";
     }
 
     //Select menu to update
     if(isset($_POST['mode']) && $_POST['mode']==="select") {
-        $mode = "update";
         $update_id = $_POST['update_id'];
 
         // Find the menu with the matching ID from the menu list
@@ -88,6 +111,7 @@
                 break;
             }
         }
+        $mode = "update";
     }
 
     
@@ -102,8 +126,8 @@
     <title>Menu</title>
 </head>
 <body>
-    <h1>Restaurant Management Service - Menu Management</h1>
-
+    <h1>Menu Management</h1>
+    <a href="/main.php"><p>Back to Main </p></a>
     <h2>Menu List</h2>
     <table>
         <tr>
@@ -141,15 +165,16 @@
     <h2><?php echo $mode==="update" ? 'Update Menu' : 'Create New Menu' ?></h2>
     <form method="post" action="">
         <input type="hidden" name="mode" value="<?php echo $mode ?>">
-        <p>Name <input type="text" name="name" value="<?php echo isset($update_id) ? $selected['name'] : '' ?>" required></p>
-        <p>Price <input type="number" name="price" value="<?php echo isset($update_id) ? $selected['price'] : '' ?>" required></p>
+        <input type="hidden" name="update_id" value="<?php echo $mode==="update" ? $selected['id'] : '' ?>">
+        <p>Name <input type="text" name="name" value="<?php echo $mode==="update" ? $selected['name'] : '' ?>" required></p>
+        <p>Price <input type="number" name="price" value="<?php echo $mode==="update" ? $selected['price'] : '' ?>" required></p>
         <p>Veganism 
             <select name="veganism" required>
-                <option value="YES" <?php echo (isset($update_id) && $selected['veganism'] === 'YES') ? 'selected' : '' ?>>YES</option>
-                <option value="NO" <?php echo (isset($update_id) && $selected['veganism'] === 'NO') ? 'selected' : '' ?>>NO</option>
+                <option value="YES" <?php echo ($mode==="update" && $selected['veganism'] === 'YES') ? 'selected' : '' ?>>YES</option>
+                <option value="NO" <?php echo ($mode==="update" && $selected['veganism'] === 'NO') ? 'selected' : '' ?>>NO</option>
             </select>
         </p>
-        <button type="submit"><?php echo isset($update_id) ? 'Update' : 'Create' ?></button>
+        <button type="submit"><?php echo $mode==="update" ? 'Update' : 'Create' ?></button>
     </form>
     <?php if($mode=="update") { ?>
         <form method="post" action="">
