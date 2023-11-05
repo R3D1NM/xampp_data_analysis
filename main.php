@@ -2,7 +2,7 @@
     session_start();
     //If not logined yet
     if(!isset($_SESSION['userid'])) {
-        header("Location: /login.html");
+        header("Location: /login.php");
         exit();
     }
 ?>
