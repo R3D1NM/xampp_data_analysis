@@ -127,7 +127,7 @@
 </head>
 <body>
     <h1>Menu Management</h1>
-    <a href="/main.php"><p>Back to Main </p></a>
+    <a href="/main.php">Back to Main</a>
     <h2>Menu List</h2>
     <table>
         <tr>
@@ -135,7 +135,7 @@
             <th>Name</th>
             <th>Price</th>
             <th>Veganism</th>
-            <th>Action</th>
+            <th>Manage</th>
         </tr>
         <?php
         // while ($row = mysqli_fetch_assoc($result)) {
