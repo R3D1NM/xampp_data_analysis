@@ -33,6 +33,12 @@
             echo "ERROR: Could not prepare query".$query."".mysqli_error($db);
         }
     }
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST'){
+        session_destroy();
+        header("Location: /login.php");
+        exit();
+    }
 ?>
 
 <!DOCTYPE html>
@@ -44,6 +50,9 @@
 </head>
 <body>
     <h1>Restraunt Management Service</h1>
+    <form method='POST' action=''>
+        <button type="submit">logout</button>
+    </form>
     <h3>
     <?php
         echo "hello, ".$_SESSION['username'];
