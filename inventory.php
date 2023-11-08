@@ -13,26 +13,28 @@
     $mode = "create";
 
     // Get stock from the Stocks table based on the restaurant
-    // $query = "SELECT * FROM Stocks WHERE restaurant = ?";
-    // if ($stmt = mysqli_prepare($db, $query)) {
-    //     mysqli_stmt_bind_param($stmt, "s", $restaurant);
-    //     mysqli_stmt_execute($stmt);
-    //     $result = mysqli_stmt_get_result($stmt);
-    // } else {
-    //     echo "ERROR: Could not prepare query " . $query . "" . mysqli_error($db);
-    // }
+    $query = "SELECT * FROM Stocks WHERE restaurant = ?";
+    if ($stmt = mysqli_prepare($db, $query)) {
+        mysqli_stmt_bind_param($stmt, "s", $restaurant);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
 
-    $inventory_list = [
-        ['id' => 1, 'name' => 'Carrot', 'quantity' => 1200],
-        ['id' => 2, 'name' => 'Milk', 'quantity' => 800],
-        ['id' => 3, 'name' => 'Flour', 'quantity' => 1000]
-    ];
+        // Fetch all rows and store them in an array
+        $inventory_list = [];
+        while ($row = mysqli_fetch_assoc($result)) {
+            $inventory_list[] = $row;
+        }
+    } else {
+        echo "ERROR: Could not prepare query " . $query . "" . mysqli_error($db);
+    }
+
+
     
     // Delete stock item
     if(isset($_POST['mode'])&& $_POST['mode']==="delete"){
         if (isset($_POST['delete_id'])) {
             $delete_id = $_POST['delete_id'];
-            $delete_query = "DELETE FROM Dishes WHERE id = ?";
+            $delete_query = "DELETE FROM Stocks WHERE id = ?";
             if ($stmt = mysqli_prepare($db, $delete_query)) {
                 mysqli_stmt_bind_param($stmt, "i", $delete_id);
                 mysqli_stmt_execute($stmt);
@@ -53,20 +55,16 @@
         $name = $_POST['name'];
         $quantity = $_POST['quantity'];
 
-        // Add new stock to the inventory list
-        $new_id = count($inventory_list) + 1;
-        $new_stock = ['id' => $new_id, 'name' => $name, 'quantity' => $quantity];
-        array_push($inventory_list, $new_stock);
 
         // Insert new stock into the Stocks table
-        // $insert_query = "INSERT INTO Stocks (restaurant, name, quantity) VALUES ( ?, ?, ?)";
-        // if ($stmt = mysqli_prepare($db, $insert_query)) {
-        //     mysqli_stmt_bind_param($stmt, "sss", $restaurant, $name, $quantity);
-        //     mysqli_stmt_execute($stmt);
-        //     header("Location: inventory.php");
-        // } else {
-        //     echo "ERROR: Could not prepare insert query" . mysqli_error($db);
-        // }
+        $insert_query = "INSERT INTO Stocks (restaurant, name, quantity) VALUES ( ?, ?, ?)";
+        if ($stmt = mysqli_prepare($db, $insert_query)) {
+            mysqli_stmt_bind_param($stmt, "sss", $restaurant, $name, $quantity);
+            mysqli_stmt_execute($stmt);
+            header("Location: inventory.php");
+        } else {
+            echo "ERROR: Could not prepare insert query" . mysqli_error($db);
+        }
     }
 
     //Update selected stock
@@ -74,25 +72,16 @@
         $name = $_POST['name'];
         $quantity = $_POST['quantity'];
         $update_id = $_POST['update_id'];   
-
-        // Update the selected stock in the inventory list
-        foreach ($inventory_list as &$stock) {
-            if ($stock['id'] == $update_id) {
-                $stock['name'] = $name;
-                $stock['quantity'] = $quantity;
-                break;
-            }
-        }
     
-        // Update the selected stock in the Dishes table
-        // $update_query = "UPDATE Dishes SET name = ?, quantity = ? WHERE id = ?";
-        // if ($stmt = mysqli_prepare($db, $update_query)) {
-        //     mysqli_stmt_bind_param($stmt, "ssi", $name, $quantity, $update_id);
-        //     mysqli_stmt_execute($stmt);
-        //     header("Location: inventory.php");
-        // } else {
-        //     echo "ERROR: Could not prepare update query" . mysqli_error($db);
-        // }
+        // Update the selected stock in the Stocks table
+        $update_query = "UPDATE Stocks SET name = ?, quantity = ? WHERE id = ?";
+        if ($stmt = mysqli_prepare($db, $update_query)) {
+            mysqli_stmt_bind_param($stmt, "sii", $name, $quantity, $update_id);
+            mysqli_stmt_execute($stmt);
+            header("Location: inventory.php");
+        } else {
+            echo "ERROR: Could not prepare update query" . mysqli_error($db);
+        }
         $mode="create";
     }
 
