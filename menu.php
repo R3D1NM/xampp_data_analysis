@@ -12,109 +12,89 @@
     $restaurant = $_SESSION['restaurant'];
     $mode = "create";
 
-    // Get menu from the Dishes table based on the restaurant
-    // $query = "SELECT * FROM Dishes WHERE restaurant = ?";
-    // if ($stmt = mysqli_prepare($db, $query)) {
-    //     mysqli_stmt_bind_param($stmt, "s", $restaurant);
-    //     mysqli_stmt_execute($stmt);
-    //     $result = mysqli_stmt_get_result($stmt);
-    // } else {
-    //     echo "ERROR: Could not prepare query " . $query . "" . mysqli_error($db);
-    // }
-
-    $menu_list = [
-        ['id' => 1, 'name' => 'Pasta', 'price' => 12000, 'veganism' => 'NO'],
-        ['id' => 2, 'name' => 'Salad', 'price' => 8000, 'veganism' => 'YES'],
-        ['id' => 3, 'name' => 'Burger', 'price' => 1000, 'veganism' => 'NO']
-    ];
+    //Get menu from the Dishes table based on the restaurant
+    $query = "SELECT * FROM Dishes WHERE restaurant = ?";
+    if ($stmt = mysqli_prepare($db, $query)) {
+        mysqli_stmt_bind_param($stmt, "s", $restaurant);
+        mysqli_stmt_execute($stmt);
+        $dishes_list = mysqli_stmt_get_result($stmt);
+    } else {
+        echo "ERROR: Could not prepare query " . $query . "" . mysqli_error($db);
+    }
     
-    // Delete menu item
-    if(isset($_POST['mode'])&& $_POST['mode']==="delete"){
-        if (isset($_POST['delete_id'])) {
-            $delete_id = $_POST['delete_id'];
-            $delete_query = "DELETE FROM Dishes WHERE id = ?";
-            if ($stmt = mysqli_prepare($db, $delete_query)) {
-                mysqli_stmt_bind_param($stmt, "i", $delete_id);
-                mysqli_stmt_execute($stmt);
-                header("Location: menu.php");
-            } else {
-                echo "ERROR: Could not prepare delete query" . mysqli_error($db);
-            }
-        }
-    }
-
-    //Change mode of view
-    if(isset($_POST['mode'])&& $_POST['mode']==="back"){
-        $mode = "create";
-    }
-
-    //Create new menu
-    if (isset($_POST['mode']) && $_POST['mode'] === "create") {
-        $name = $_POST['name'];
-        $price = $_POST['price'];
-        $veganism = $_POST['veganism'];
-
-        // Add new menu to the menu list
-        $new_id = count($menu_list) + 1;
-        $new_menu = ['id' => $new_id, 'name' => $name, 'price' => $price, 'veganism' => $veganism];
-        array_push($menu_list, $new_menu);
-
-        // Insert new menu into the Dishes table
-        // $insert_query = "INSERT INTO Dishes (restaurant, name, price, veganism) VALUES (?, ?, ?, ?, ?)";
-        // if ($stmt = mysqli_prepare($db, $insert_query)) {
-        //     mysqli_stmt_bind_param($stmt, "ssss", $restaurant, $name, $price, $veganism);
-        //     mysqli_stmt_execute($stmt);
-        //     header("Location: menu.php");
-        // } else {
-        //     echo "ERROR: Could not prepare insert query" . mysqli_error($db);
-        // }
-    }
-
-    //Update selected menu
-    if (isset($_POST['mode']) && $_POST['mode'] === "update") {
-        $name = $_POST['name'];
-        $price = $_POST['price'];
-        $veganism = $_POST['veganism'];
-        $update_id = $_POST['update_id'];
-
-        // Update the selected menu in the menu list
-        foreach ($menu_list as &$menu) {
-            if ($menu['id'] == $update_id) {
-                $menu['name'] = $name;
-                $menu['price'] = $price;
-                $menu['veganism'] = $veganism;
+    //POST Request
+    if ($_SERVER['REQUEST_METHOD'] === 'POST'){
+        if(!isset($_POST['mode'])) echo 'Wrong Request';
+        switch ($_POST['mode']){
+            case 'delete':
+                if (isset($_POST['delete_id'])) {
+                    $delete_id = $_POST['delete_id'];
+                    $delete_query = "DELETE FROM Dishes WHERE id = ?";
+                    if ($stmt = mysqli_prepare($db, $delete_query)) {
+                        mysqli_stmt_bind_param($stmt, "i", $delete_id);
+                        mysqli_stmt_execute($stmt);
+                        header("Location: menu.php");
+                    } else {
+                        echo "ERROR: Could not prepare delete query" . mysqli_error($db);
+                    }
+                }
                 break;
-            }
-        }
-    
-        // Update the selected menu in the Dishes table
-        // $update_query = "UPDATE Dishes SET name = ?, price = ?, veganism = ? WHERE id = ?";
-        // if ($stmt = mysqli_prepare($db, $update_query)) {
-        //     mysqli_stmt_bind_param($stmt, "sssi", $name, $price, $veganism, $update_id);
-        //     mysqli_stmt_execute($stmt);
-        //     header("Location: menu.php");
-        // } else {
-        //     echo "ERROR: Could not prepare update query" . mysqli_error($db);
-        // }
-        $mode="create";
-    }
-
-    //Select menu to update
-    if(isset($_POST['mode']) && $_POST['mode']==="select") {
-        $update_id = $_POST['update_id'];
-
-        // Find the menu with the matching ID from the menu list
-        $selected = null;
-        foreach ($menu_list as $menu) {
-            if ($menu['id'] == $update_id) {
-                $selected = $menu;
+            case 'back':
+                $mode = "create";
                 break;
-            }
-        }
-        $mode = "update";
-    }
+            case 'create':
+                $name = $_POST['name'];
+                $price = $_POST['price'];
+                $veganism = $_POST['veganism'];
 
-    
+                // Insert new menu into the Dishes table
+                $insert_query = "INSERT INTO Dishes (restaurant, name, price, veganism) VALUES (?, ?, ?, ?)";
+                if ($stmt = mysqli_prepare($db, $insert_query)) {
+                    mysqli_stmt_bind_param($stmt, "ssss", $restaurant, $name, $price, $veganism);
+                    mysqli_stmt_execute($stmt);
+                    header("Location: menu.php");
+                } else {
+                    echo "ERROR: Could not prepare insert query" . mysqli_error($db);
+                }
+                break;
+            case 'update':
+                $name = $_POST['name'];
+                $price = $_POST['price'];
+                $veganism = $_POST['veganism'];
+                $update_id = $_POST['update_id'];
+
+                // Update the selected menu in the Dishes table
+                $update_query = "UPDATE Dishes SET name = ?, price = ?, veganism = ? WHERE id = ?";
+                if ($stmt = mysqli_prepare($db, $update_query)) {
+                    mysqli_stmt_bind_param($stmt, "sssi", $name, $price, $veganism, $update_id);
+                    mysqli_stmt_execute($stmt);
+                    header("Location: menu.php");
+                } else {
+                    echo "ERROR: Could not prepare update query" . mysqli_error($db);
+                }
+
+                //switch to create form
+                $mode="create";
+                break;
+            case 'select':
+                $update_id = $_POST['update_id'];
+
+                // Find the menu with the matching ID from the menu list
+                $selected = null;
+                foreach ($dishes_list as $menu) {
+                    if ($menu['id'] == $update_id) {
+                        $selected = $menu;
+                        break;
+                    }
+                }
+                //switch to update form
+                $mode = "update";
+                break;
+            
+            default :
+                echo 'Wrong Request';
+        }
+    }    
     
 ?>
 
@@ -138,9 +118,7 @@
             <th>Manage</th>
         </tr>
         <?php
-        // while ($row = mysqli_fetch_assoc($result)) {
-            
-        foreach ($menu_list as $row) {
+        while ($row = mysqli_fetch_assoc($dishes_list)) {
             echo "<tr>";
             echo "<td>" . $row['id'] . "</td>";
             echo "<td>" . $row['name'] . "</td>";
