@@ -17,7 +17,13 @@
     if ($stmt = mysqli_prepare($db, $query)) {
         mysqli_stmt_bind_param($stmt, "s", $restaurant);
         mysqli_stmt_execute($stmt);
-        $dishes_list = mysqli_stmt_get_result($stmt);
+        $result = mysqli_stmt_get_result($stmt);
+
+        // Fetch all rows and store them in an array
+        $dishes_list = [];
+        while ($row = mysqli_fetch_assoc($result)) {
+            $dishes_list[] = $row;
+        }
     } else {
         echo "ERROR: Could not prepare query " . $query . "" . mysqli_error($db);
     }
@@ -118,7 +124,7 @@
             <th>Manage</th>
         </tr>
         <?php
-        while ($row = mysqli_fetch_assoc($dishes_list)) {
+        foreach ($dishes_list as $row) {
             echo "<tr>";
             echo "<td>" . $row['id'] . "</td>";
             echo "<td>" . $row['name'] . "</td>";
