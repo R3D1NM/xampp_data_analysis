@@ -13,42 +13,55 @@
     $mode = "create";
 
     // Get ingredient from the Ingredients table
-    // $query = "SELECT * FROM Ingredients";
-    // if ($stmt = mysqli_prepare($db, $query)) {
-    //     mysqli_stmt_execute($stmt);
-    //     $result = mysqli_stmt_get_result($stmt);
-    // } else {
-    //     echo "ERROR: Could not prepare query " . $query . "" . mysqli_error($db);
-    // }
+    $query = "SELECT S.id as s_id, I.id as i_id,I.name, I.price, I.supplier FROM INGREDIENTS I join STOCKS S on I.name = S.name;";
+    if ($stmt = mysqli_prepare($db, $query)) {
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
 
-    $ingredient_list = [
-        ['id' => 1, 'supplier' => 'AAA', 'name' => 'Carrot', 'price' => 1200],
-        ['id' => 2, 'supplier' => 'BBB', 'name' => 'Milk', 'price' => 800],
-        ['id' => 3, 'supplier' => 'CCC', 'name' => 'Flour', 'price' => 1000]
-    ];
+        // Fetch all rows and store them in an array
+        $ingredient_list = [];
+        while ($row = mysqli_fetch_assoc($result)) {
+            $ingredient_list[] = $row;
+        }
+
+        foreach($ingredient_list[0] as $key =>$value){
+            echo $key."".$value."\n";
+        }
+
+    } else {
+        echo "ERROR: Could not prepare query " . $query . "" . mysqli_error($db);
+    }
     
 
     //Create new purchase
     if (isset($_POST['mode']) && $_POST['mode'] === "purchase") {
-        $ingredient_id = $_POST['ingredient_id'];
-        $stock_id = $_POST['stock_id'];
+        $purchase_id = $_POST['purchase_id'];
+        $supplier = $_POST['supplier'];
         $name = $_POST['name'];
         $quantity = $_POST['quantity'];
+        $ingredient_id = $_POST['ingredient_id'];
 
-        // Add new stock to the inventory list
-        $new_id = count($inventory_list) + 1;
-        $new_stock = ['id' => $new_id, 'name' => $name, 'quantity' => $quantity];
-        array_push($inventory_list, $new_stock);
+        mysqli_begin_transaction($db);  
 
-        // Insert new stock into the Stocks table
-        // $insert_query = "INSERT INTO Stocks (restaurant, name, quantity) VALUES ( ?, ?, ?)";
-        // if ($stmt = mysqli_prepare($db, $insert_query)) {
-        //     mysqli_stmt_bind_param($stmt, "sss", $restaurant, $name, $quantity);
-        //     mysqli_stmt_execute($stmt);
-        //     header("Location: inventory.php");
-        // } else {
-        //     echo "ERROR: Could not prepare insert query" . mysqli_error($db);
-        // }
+        // Insert new purchase into the PURCHASES table
+        $insert_query = "INSERT INTO PURCHASES (restaurant, stock_id, quantity, ingredients) VALUES (?, ?, ?, ?);";
+        if ($stmt = mysqli_prepare($db, $insert_query)) {
+            mysqli_stmt_bind_param($stmt, "iiis", $restaurant,$purchase_id, $quantity, $ingredient_id);
+            mysqli_stmt_execute($stmt);
+        } else {
+            echo "ERROR: Could not prepare insert query" . mysqli_error($db);
+        }
+
+        // Update Stock
+        $insert_query = "UPDATE STOCKS SET quantity=quantity+? WHERE id = ?;";
+        if ($stmt = mysqli_prepare($db, $insert_query)) {
+            mysqli_stmt_bind_param($stmt, "ii", $quantity, $purchase_id);
+            mysqli_stmt_execute($stmt);
+        } else {
+            echo "ERROR: Could not prepare insert query" . mysqli_error($db);
+        }
+        mysqli_commit($db);
+        header("Location: purchase.php");
     }
 
     //Change mode of view
@@ -63,7 +76,7 @@
         // Find the stock with the matching ID from the inventory list
         $selected = null;
         foreach ($ingredient_list as $ingredient) {
-            if ($ingredient['id'] == $purchase_id) {
+            if ($ingredient['s_id'] == $purchase_id) {
                 $selected = $ingredient;
                 break;
             }
@@ -100,13 +113,13 @@
             
         foreach ($ingredient_list as $row) {
             echo "<tr>";
-            echo "<td>" . $row['id'] . "</td>";
+            echo "<td>" . $row['s_id'] . "</td>";
             echo "<td>" . $row['supplier'] . "</td>";
             echo "<td>" . $row['name'] . "</td>";
             echo "<td>" . $row['price'] . "</td>";
             echo "<td>";
             echo "<form method='post' action=''>";
-            echo "<input type='hidden' name='purchase_id' value='" . $row['id'] . "'>";
+            echo "<input type='hidden' name='purchase_id' value='" . $row['s_id'] . "'>";
             echo "<input type='hidden' name='mode' value='select'>";
             echo "<button type='submit'>select</button>";
             echo "</form>";
@@ -119,10 +132,11 @@
     <h2>New Purchase</h2>
     <form method="post" action="">
         <input type="hidden" name="mode" value="purchase">
-        <input type="hidden" name="purchase_id" value="<?php echo $selected['id'] ?>">
-        <p>Supplier <input type="text" name="supplier" disabled value="<?php echo $selected['supplier'] ?>" required></p>
-        <p>Name <input type="text" name="name" disabled value="<?php echo $selected['name'] ?>" required></p>
-        <p>Quantity <input type="number" name="quantity" id="quantity" value="<?php echo $selected['quantity']; ?>" required></p>
+        <input type="hidden" name="purchase_id" value="<?php echo $selected['s_id'] ?>">
+        <input type="hidden" name="ingredient_id" value="<?php echo $selected['i_id'] ?>">
+        <p>Supplier <input type="text" name="supplier" readonly value="<?php echo $selected['supplier'] ?>" required></p>
+        <p>Name <input type="text" name="name" readonly value="<?php echo $selected['name'] ?>" required></p>
+        <p>Quantity <input type="number" name="quantity" id="quantity" required></p>
         <p>Total Price <input type="number" name="price" id="price" disabled value="<?php echo $selected['price'] * $selected['quantity']; ?>" required></p>
         <button type="submit">purchase</button>
     </form>
