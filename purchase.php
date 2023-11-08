@@ -9,7 +9,7 @@
     }
 
     // Get restaurant id from user login
-    $restaurant = $_SESSION['restaurant_id'];
+    $restaurant = $_SESSION['restaurant'];
     $mode = "create";
 
     // Get ingredient from the Ingredients table

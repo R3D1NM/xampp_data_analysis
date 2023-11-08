@@ -15,7 +15,7 @@
         }
 
         //query id to get hashed pw from DB
-        $query = "SELECT * FROM users WHERE userid = ?";
+        $query = "SELECT * FROM users WHERE user_id = ?";
         if($stmt=mysqli_prepare($db,$query)){
             mysqli_stmt_bind_param($stmt,"s",$id);
             $id = $_POST['id'];
@@ -25,13 +25,14 @@
                 if(mysqli_num_rows($result)>0){
                     //get user info
                     $row = mysqli_fetch_assoc($result);
-                    $hashed_password = $row['userpw'];
+                    $hashed_password = $row['user_pw'];
                     $password = $_POST['password'];
                     //verify password
                     if(password_verify($password,$hashed_password)){
                         //generate new session and set username
                         $_SESSION['userid'] = $row['id'];
-                        $_SESSION['username']=$row['username'];
+                        $_SESSION['username']=$row['user_name'];
+                        $_SESSION['restaurant'] = $row['restaurant'];
 
                         header("Location: /main.php");
                         exit();
