@@ -102,7 +102,7 @@
     <h2>Purchase List</h2>
     <table>
         <tr>
-            <th>ID</th>
+            <!-- <th>ID</th> -->
             <th>Supplier</th>
             <th>Name</th>
             <th>Price</th>
@@ -113,7 +113,7 @@
             
         foreach ($ingredient_list as $row) {
             echo "<tr>";
-            echo "<td>" . $row['s_id'] . "</td>";
+            // echo "<td>" . $row['s_id'] . "</td>";
             echo "<td>" . $row['supplier'] . "</td>";
             echo "<td>" . $row['name'] . "</td>";
             echo "<td>" . $row['price'] . "</td>";
