@@ -109,7 +109,7 @@
     <div class="flex">
     <!-- Menu List -->
     <div class="list">
-        <h2>Menu List</h2>
+        <h2 class="list_title">Menu List</h2>
         <table>
             <?php
             if($type==="dishes"){

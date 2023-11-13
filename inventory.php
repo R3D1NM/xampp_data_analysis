@@ -117,7 +117,7 @@
     <div class="flex">
     <!-- Inventory List  -->
     <div class="list">
-    <h2>Inventory List</h2>
+    <h2 class="list_title">Inventory List</h2>
     <table>
         <tr>
             <th>ID</th>

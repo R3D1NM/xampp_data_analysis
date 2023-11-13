@@ -102,7 +102,7 @@
     <div class="flex">
     <!-- Purchase List -->
     <div class="list">
-    <h2>Purchase List</h2>
+    <h2 class="list_title">Ingredient List</h2>
     <table>
         <tr>
             <th>Supplier</th>
