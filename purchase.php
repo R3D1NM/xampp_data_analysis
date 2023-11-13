@@ -13,8 +13,9 @@
     $mode = "create";
 
     // Get ingredient from the Ingredients table
-    $query = "SELECT S.id as s_id, I.id as i_id,I.name, I.price, I.supplier FROM INGREDIENTS I join STOCKS S on I.name = S.name;";
+    $query = "SELECT S.id as s_id, I.id as i_id,I.name, I.price, I.supplier FROM INGREDIENTS I join STOCKS S on I.name = S.name where S.restaurant=?;";
     if ($stmt = mysqli_prepare($db, $query)) {
+        mysqli_stmt_bind_param($stmt, "i", $restaurant);
         mysqli_stmt_execute($stmt);
         $result = mysqli_stmt_get_result($stmt);
 
