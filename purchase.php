@@ -24,9 +24,9 @@
             $ingredient_list[] = $row;
         }
 
-        foreach($ingredient_list[0] as $key =>$value){
-            echo $key."".$value."\n";
-        }
+        // foreach($ingredient_list[0] as $key =>$value){
+        //     echo $key."".$value."\n";
+        // }
 
     } else {
         echo "ERROR: Could not prepare query " . $query . "" . mysqli_error($db);
