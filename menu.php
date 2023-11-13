@@ -154,8 +154,8 @@
         <p>Price <input type="number" name="price" value="<?php echo $mode==="update" ? $selected['price'] : '' ?>" required></p>
         <p>Veganism 
             <select name="veganism" required>
-                <option value="YES" <?php echo ($mode==="update" && $selected['veganism'] === 'YES') ? 'selected' : '' ?>>YES</option>
-                <option value="NO" <?php echo ($mode==="update" && $selected['veganism'] === 'NO') ? 'selected' : '' ?>>NO</option>
+                <option value="Yes" <?php echo ($mode==="update" && $selected['veganism'] === 'Yes') ? 'selected' : '' ?>>Yes</option>
+                <option value="No" <?php echo ($mode==="update" && $selected['veganism'] === 'No') ? 'selected' : '' ?>>No</option>
             </select>
         </p>
         <button type="submit"><?php echo $mode==="update" ? 'Update' : 'Create' ?></button>
