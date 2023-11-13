@@ -22,7 +22,7 @@
                     if ($stmt = mysqli_prepare($db, $delete_query)) {
                         mysqli_stmt_bind_param($stmt, "i", $delete_id);
                         mysqli_stmt_execute($stmt);
-                        header("Location: menu.php");
+                        header("Location: menu.php?type='drinks'");
                     } else {
                         echo "ERROR: Could not prepare delete query" . mysqli_error($db);
                     }
@@ -39,7 +39,7 @@
                 if ($stmt = mysqli_prepare($db, $insert_query)) {
                     mysqli_stmt_bind_param($stmt, "issis", $restaurant, $name, $price, $milliliters, $alcoholic);
                     mysqli_stmt_execute($stmt);
-                    header("Location: menu.php");
+                    header("Location: menu.php?type='drinks'");
                 } else {
                     echo "ERROR: Could not prepare insert query" . mysqli_error($db);
                 }
