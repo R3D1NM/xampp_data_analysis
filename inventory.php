@@ -55,9 +55,8 @@
         $name = $_POST['name'];
         $quantity = $_POST['quantity'];
 
-
         // Insert new stock into the Stocks table
-        $insert_query = "INSERT INTO Stocks (restaurant, name, quantity) VALUES ( ?, ?, ?)";
+        $insert_query = "INSERT INTO Stocks (restaurant, name, quantity) VALUES (?, ?, ?)";
         if ($stmt = mysqli_prepare($db, $insert_query)) {
             mysqli_stmt_bind_param($stmt, "sss", $restaurant, $name, $quantity);
             mysqli_stmt_execute($stmt);
@@ -115,9 +114,10 @@
     <h1>Inventory Management</h1>
     <a href="/main.php">Back to Main</a>
     <a href="/purchase.php">Purchase ingredient</a>
-    <h2>Inventory List</h2>
     <div class="flex">
+    <!-- Inventory List  -->
     <div class="list">
+    <h2>Inventory List</h2>
     <table>
         <tr>
             <th>ID</th>
@@ -125,7 +125,6 @@
             <th>Quantity</th>
         </tr>
         <?php
-        // while ($row = mysqli_fetch_assoc($result)) {
             
         foreach ($inventory_list as $row) {
             echo "<tr>";
@@ -150,6 +149,7 @@
     </table>
     </div>
     <div>
+    <!-- User Panel to update/create -->
     <h2><?php echo $mode==="update" ? 'Update Stock' : 'Create New Stock' ?></h2>
     <form method="post" action="">
         <input type="hidden" name="mode" value="<?php echo $mode ?>">

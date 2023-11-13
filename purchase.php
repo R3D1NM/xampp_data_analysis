@@ -24,11 +24,6 @@
         while ($row = mysqli_fetch_assoc($result)) {
             $ingredient_list[] = $row;
         }
-
-        // foreach($ingredient_list[0] as $key =>$value){
-        //     echo $key."".$value."\n";
-        // }
-
     } else {
         echo "ERROR: Could not prepare query " . $query . "" . mysqli_error($db);
     }
@@ -42,6 +37,7 @@
         $quantity = $_POST['quantity'];
         $ingredient_id = $_POST['ingredient_id'];
 
+        //Begin Transacrion
         mysqli_begin_transaction($db);  
 
         // Insert new purchase into the PURCHASES table
@@ -61,6 +57,8 @@
         } else {
             echo "ERROR: Could not prepare insert query" . mysqli_error($db);
         }
+
+        //Commit Transaction
         mysqli_commit($db);
         header("Location: purchase.php");
     }
@@ -102,22 +100,20 @@
     <a href="/main.php">Back to Main</a>
     <a href="/inventory.php">Check Inventory</a>
     <div class="flex">
+    <!-- Purchase List -->
     <div class="list">
     <h2>Purchase List</h2>
     <table>
         <tr>
-            <!-- <th>ID</th> -->
             <th>Supplier</th>
             <th>Name</th>
             <th>Price</th>
             <th>Purchase</th>
         </tr>
         <?php
-        // while ($row = mysqli_fetch_assoc($result)) {
             
         foreach ($ingredient_list as $row) {
             echo "<tr>";
-            // echo "<td>" . $row['s_id'] . "</td>";
             echo "<td>" . $row['supplier'] . "</td>";
             echo "<td>" . $row['name'] . "</td>";
             echo "<td>" . $row['price'] . "</td>";
@@ -134,6 +130,7 @@
     </table>
     </div>
     <div>
+    <!-- User Panel to purchase -->
     <?php if($mode=="purchase") { ?>
     <h2>New Purchase</h2>
     <form method="post" action="">
@@ -154,6 +151,7 @@
     </div>
     </div>
     <script>
+        // script to calculate total price
         document.getElementById('quantity').addEventListener('change', function() {
             var quantity = this.value;
             var price = <?php echo $selected['price'] ?>;

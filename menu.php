@@ -44,18 +44,18 @@
         echo "ERROR: Could not prepare query " . $query . "" . mysqli_error($db);
     }
 
-    if(isset($_GET['type'])){
+    if(isset($_GET['type'])){ //set menu type with parameter
         $type = $_GET['type'];
-    }else{
+    }else{ //default: dishes
         $type = "dishes";
     }
 
     //POST Request
     if ($_SERVER['REQUEST_METHOD'] === 'POST'){
-        if(isset($_POST['type'])&&!isset(($_POST['mode']))){
+        if(isset($_POST['type'])&&!isset(($_POST['mode']))){ //switch menu type
             $type=$_POST['type'];
         }
-        else if(isset($_POST['mode'])&&($_POST['mode']=="select")){
+        else if(isset($_POST['mode'])&&($_POST['mode']=="select")){ //select menu
             $update_id = $_POST['update_id'];
             $type=$_POST['type'];
             // Find the menu with the matching ID from the menu list
@@ -75,10 +75,10 @@
                     }
                 }
             }
-            // echo $selected;
             //switch to update form
             $mode = "update";
-        } else if (isset($_POST['mode'])&&($_POST['mode']=="back")){
+
+        } else if (isset($_POST['mode'])&&($_POST['mode']=="back")){ //go back to create form
             $mode = "create";
         }
     }
@@ -107,6 +107,7 @@
         
     </form>
     <div class="flex">
+    <!-- Menu List -->
     <div class="list">
         <h2>Menu List</h2>
         <table>
@@ -176,6 +177,7 @@
             ?>
         </table>
     </div>
+    <!-- User Panel to create/update menu -->
     <div class="panel">
     <h2><?php echo $mode==="update" ? 'Update Menu' : 'Create New Menu' ?></h2>
     <?php if($type==="dishes"){?>

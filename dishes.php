@@ -16,7 +16,7 @@
     if ($_SERVER['REQUEST_METHOD'] === 'POST'){
         if(!isset($_POST['mode'])) echo 'Wrong Request';
         switch ($_POST['mode']){
-            case 'delete':
+            case 'delete': //delete selected menu
                 if (isset($_POST['delete_id'])) {
                     $delete_id = $_POST['delete_id'];
                     $delete_query = "DELETE FROM Dishes WHERE id = ?";
@@ -29,12 +29,12 @@
                     }
                 }
                 break;
-            case 'create':
+            case 'create': //create new dish menu
                 $name = $_POST['name'];
                 $price = $_POST['price'];
                 $veganism = $_POST['veganism'];
 
-                // Insert new menu into the Dishes table
+                //insert new menu into the Dishes table
                 $insert_query = "INSERT INTO Dishes (restaurant, name, price, veganism) VALUES (?, ?, ?, ?)";
                 if ($stmt = mysqli_prepare($db, $insert_query)) {
                     mysqli_stmt_bind_param($stmt, "isis", $restaurant, $name, $price, $veganism);
@@ -44,13 +44,13 @@
                     echo "ERROR: Could not prepare insert query" . mysqli_error($db);
                 }
                 break;
-            case 'update':
+            case 'update': //update selected menu
                 $name = $_POST['name'];
                 $price = $_POST['price'];
                 $veganism = $_POST['veganism'];
                 $update_id = $_POST['update_id'];
 
-                // Update the selected menu in the Dishes table
+                //update the selected menu in the Dishes table
                 $update_query = "UPDATE Dishes SET name = ?, price = ?, veganism = ? WHERE id = ?";
                 if ($stmt = mysqli_prepare($db, $update_query)) {
                     mysqli_stmt_bind_param($stmt, "sisi", $name, $price, $veganism, $update_id);
@@ -59,9 +59,6 @@
                 } else {
                     echo "ERROR: Could not prepare update query" . mysqli_error($db);
                 }
-
-                //switch to create form
-                $mode="create";
                 break;
             
             default :

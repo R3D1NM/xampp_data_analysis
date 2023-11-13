@@ -15,7 +15,7 @@
     if ($_SERVER['REQUEST_METHOD'] === 'POST'){
         if(!isset($_POST['mode'])) echo 'Wrong Request';
         switch ($_POST['mode']){
-            case 'delete':
+            case 'delete': //delete selected menu
                 if (isset($_POST['delete_id'])) {
                     $delete_id = $_POST['delete_id'];
                     $delete_query = "DELETE FROM Drinks WHERE id = ?";
@@ -28,13 +28,13 @@
                     }
                 }
                 break;
-            case 'create':
+            case 'create': //create new drink menu
                 $name = $_POST['name'];
                 $price = $_POST['price'];
                 $milliliters = $_POST['milliliters'];
                 $alcoholic = $_POST['alcoholic'];
 
-                // Insert new menu into the Drinks table
+                //insert new menu into the Drinks table
                 $insert_query = "INSERT INTO Drinks (restaurant, name, price, milliliters, alcoholic) VALUES (?, ?, ?, ?, ?)";
                 if ($stmt = mysqli_prepare($db, $insert_query)) {
                     mysqli_stmt_bind_param($stmt, "issis", $restaurant, $name, $price, $milliliters, $alcoholic);
@@ -44,14 +44,14 @@
                     echo "ERROR: Could not prepare insert query" . mysqli_error($db);
                 }
                 break;
-            case 'update':
+            case 'update': //update selected menu
                 $name = $_POST['name'];
                 $price = $_POST['price'];
                 $milliliters = $_POST['milliliters'];
                 $alcoholic = $_POST['alcoholic'];
                 $update_id = $_POST['update_id'];
 
-                // Update the selected menu in the Drinks table
+                //update the selected menu in the Drinks table
                 $update_query = "UPDATE Drinks SET name = ?, price = ?, milliliters = ?, alcoholic = ? WHERE id = ?";
                 if ($stmt = mysqli_prepare($db, $update_query)) {
                     mysqli_stmt_bind_param($stmt, "siisi", $name, $price, $milliliters, $alcoholic, $update_id);

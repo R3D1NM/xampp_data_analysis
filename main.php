@@ -5,7 +5,7 @@
         header("Location: /login.php");
         exit();
     }
-
+    //Logout
     if ($_SERVER['REQUEST_METHOD'] === 'POST'){
         session_destroy();
         header("Location: /login.php");
@@ -30,6 +30,7 @@
         echo "hello, ".$_SESSION['username'];
     ?>
     </h3>
+    <!-- Service List -->
     <ul>
         <li><a href="/menu.php">Manage Menu</a></li>
         <li><a href="/inventory.php">Manage Inventory</a></li>

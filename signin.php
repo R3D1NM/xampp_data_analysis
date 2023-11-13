@@ -32,12 +32,14 @@
     </div>
 
     <?php
+        //connect DB
         $db=mysqli_connect("localhost:3306","team09","team09","team09");
         if(mysqli_connect_errno()){
             printf ("database connection failed: %s",mysqli_connect_error());
             exit();
         }
 
+        //Register new user
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $userid = $_POST['id'];
             $username = $_POST['username'];
@@ -46,8 +48,11 @@
             $contact = $_POST['contact'];
             $location = $_POST['location'];
             $category = $_POST['category'];
+
+            //Begin Transaction
             mysqli_begin_transaction($db);
 
+            //Register Restaurant first
             $query = "INSERT INTO restaurants (name, contact, location, category) VALUES (?, ?, ?, ?)";
             if ($stmt = mysqli_prepare($db, $query)) {
                 mysqli_stmt_bind_param($stmt, "ssss", $name, $contact, $location,$category);
@@ -58,6 +63,7 @@
                 echo "ERROR: Could not prepare query" . $query . "" . mysqli_error($db);
             }
 
+            //Get Restaurant ID
             $query = "SELECT id FROM RESTAURANTS WHERE name=? and contact=?";
             if ($stmt = mysqli_prepare($db, $query)) {
                 mysqli_stmt_bind_param($stmt,"ss",$name,$contact);
@@ -78,10 +84,12 @@
                 echo "ERROR: Could not prepare query" . $query . "" . mysqli_error($db);
             }
 
+            //Create new User
             $query = "INSERT INTO users (user_id, user_name, user_pw, restaurant) VALUES (?, ?, ?,?)";
             if ($stmt = mysqli_prepare($db, $query)) {
                 mysqli_stmt_bind_param($stmt, "ssss", $userid, $username, $password, $restaurant);
                 if (mysqli_stmt_execute($stmt)) {
+                    // Commit Transaction
                     mysqli_commit($db);
                     header("Location: /login.php");
                     exit();
@@ -91,8 +99,6 @@
             } else {
                 echo "ERROR: Could not prepare query" . $query . "" . mysqli_error($db);
             }
-
-            mysqli_commit($db);
         }
     ?>
 </body>

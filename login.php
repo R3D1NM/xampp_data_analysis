@@ -36,7 +36,7 @@
 
                         header("Location: /main.php");
                         exit();
-                    } else {
+                    } else { //login failed
                         echo "Login Failed: Check id or password again <a href='/login.html'>Try again</a>";
                     }
                     
