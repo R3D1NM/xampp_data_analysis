@@ -109,12 +109,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inventory</title>
+    <link href="main.css" media="all" rel="Stylesheet" type="text/css" /> 
 </head>
 <body>
     <h1>Inventory Management</h1>
     <a href="/main.php">Back to Main</a>
     <a href="/purchase.php">Purchase ingredient</a>
     <h2>Inventory List</h2>
+    <div class="flex">
+    <div class="list">
     <table>
         <tr>
             <th>ID</th>
@@ -145,6 +148,8 @@
         }
         ?>
     </table>
+    </div>
+    <div>
     <h2><?php echo $mode==="update" ? 'Update Stock' : 'Create New Stock' ?></h2>
     <form method="post" action="">
         <input type="hidden" name="mode" value="<?php echo $mode ?>">
@@ -159,5 +164,7 @@
             <button type="submit">Back</button>
         </form>
     <?php } ?>
+    </div>
+    </div>
 </body>
 </html>

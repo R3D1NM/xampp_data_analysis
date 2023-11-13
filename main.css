@@ -1,0 +1,8 @@
+.flex{
+    display: flex;
+    /* justify-content: center; */
+}
+
+.list{
+    margin-right: 10rem;
+}

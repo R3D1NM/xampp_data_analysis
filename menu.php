@@ -91,6 +91,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Menu</title>
+    <link href="main.css" media="all" rel="Stylesheet" type="text/css" /> 
 </head>
 <body>
     <h1>Menu Management</h1>
@@ -105,73 +106,77 @@
         </p>
         
     </form>
-    <h2>Menu List</h2>
-    <table>
-        <?php
-        if($type==="dishes"){
-            echo "<tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Price</th>
-            <th>Veganism</th>
-            <th>Manage</th>
-            </tr>";
-            foreach ($dishes_list as $row) {
-                echo "<tr>";
-                echo "<td>" . $row['id'] . "</td>";
-                echo "<td>" . $row['name'] . "</td>";
-                echo "<td>" . $row['price'] . "</td>";
-                echo "<td>" . $row['veganism'] . "</td>";
-                echo "<td>";
-                echo "<form method='post' action='dishes.php'>";
-                echo "<input type='hidden' name='mode' value='delete'>";
-                echo "<input type='hidden' name='delete_id' value='" . $row['id'] . "'>";
-                echo "<button type='submit'>Delete</button>";
-                echo "</form>";
-                echo "<form method='post' action=''>";
-                echo "<input type='hidden' name='update_id' value='" . $row['id'] . "'>";
-                echo "<input type='hidden' name='mode' value='select'>";
-                echo "<input type='hidden' name='type' value='dishes'>";
-                echo "<button type='submit'>Update</button>";
-                echo "</form>";
-                echo "</td>";
-                echo "</tr>";
+    <div class="flex">
+    <div class="list">
+        <h2>Menu List</h2>
+        <table>
+            <?php
+            if($type==="dishes"){
+                echo "<tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Veganism</th>
+                <th>Manage</th>
+                </tr>";
+                foreach ($dishes_list as $row) {
+                    echo "<tr>";
+                    echo "<td>" . $row['id'] . "</td>";
+                    echo "<td>" . $row['name'] . "</td>";
+                    echo "<td>" . $row['price'] . "</td>";
+                    echo "<td>" . $row['veganism'] . "</td>";
+                    echo "<td>";
+                    echo "<form method='post' action='dishes.php'>";
+                    echo "<input type='hidden' name='mode' value='delete'>";
+                    echo "<input type='hidden' name='delete_id' value='" . $row['id'] . "'>";
+                    echo "<button type='submit'>Delete</button>";
+                    echo "</form>";
+                    echo "<form method='post' action=''>";
+                    echo "<input type='hidden' name='update_id' value='" . $row['id'] . "'>";
+                    echo "<input type='hidden' name='mode' value='select'>";
+                    echo "<input type='hidden' name='type' value='dishes'>";
+                    echo "<button type='submit'>Update</button>";
+                    echo "</form>";
+                    echo "</td>";
+                    echo "</tr>";
+                }
+            }else{
+                echo "<tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Alcoholic</th>
+                <th>Milliliters</th>
+                <th>Manage</th>
+                </tr>";
+                foreach ($drinks_list as $row) {
+                    echo "<tr>";
+                    echo "<td>" . $row['id'] . "</td>";
+                    echo "<td>" . $row['name'] . "</td>";
+                    echo "<td>" . $row['price'] . "</td>";
+                    echo "<td>" . $row['alcoholic'] . "</td>";
+                    echo "<td>" . $row['milliliters'] . "</td>";
+                    echo "<td>";
+                    echo "<form method='post' action='drinks.php'>";
+                    echo "<input type='hidden' name='mode' value='delete'>";
+                    echo "<input type='hidden' name='delete_id' value='" . $row['id'] . "'>";
+                    echo "<button type='submit'>Delete</button>";
+                    echo "</form>";
+                    echo "<form method='post' action=''>";
+                    echo "<input type='hidden' name='update_id' value='" . $row['id'] . "'>";
+                    echo "<input type='hidden' name='mode' value='select'>";
+                    echo "<input type='hidden' name='type' value='drinks'>";
+                    echo "<button type='submit'>Update</button>";
+                    echo "</form>";
+                    echo "</td>";
+                    echo "</tr>";
+                }
             }
-        }else{
-            echo "<tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Price</th>
-            <th>Alcoholic</th>
-            <th>Milliliters</th>
-            <th>Manage</th>
-            </tr>";
-            foreach ($drinks_list as $row) {
-                echo "<tr>";
-                echo "<td>" . $row['id'] . "</td>";
-                echo "<td>" . $row['name'] . "</td>";
-                echo "<td>" . $row['price'] . "</td>";
-                echo "<td>" . $row['alcoholic'] . "</td>";
-                echo "<td>" . $row['milliliters'] . "</td>";
-                echo "<td>";
-                echo "<form method='post' action='drinks.php'>";
-                echo "<input type='hidden' name='mode' value='delete'>";
-                echo "<input type='hidden' name='delete_id' value='" . $row['id'] . "'>";
-                echo "<button type='submit'>Delete</button>";
-                echo "</form>";
-                echo "<form method='post' action=''>";
-                echo "<input type='hidden' name='update_id' value='" . $row['id'] . "'>";
-                echo "<input type='hidden' name='mode' value='select'>";
-                echo "<input type='hidden' name='type' value='drinks'>";
-                echo "<button type='submit'>Update</button>";
-                echo "</form>";
-                echo "</td>";
-                echo "</tr>";
-            }
-        }
-        
-        ?>
-    </table>
+
+            ?>
+        </table>
+    </div>
+    <div class="panel">
     <h2><?php echo $mode==="update" ? 'Update Menu' : 'Create New Menu' ?></h2>
     <?php if($type==="dishes"){?>
     <form method="post" action="dishes.php">
@@ -215,6 +220,9 @@
             </form>
         <?php } ?>
     <?php } ?>
-
+    </div>
+    </div>
+    
+    
 </body>
 </html>

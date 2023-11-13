@@ -93,12 +93,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="main.css" media="all" rel="Stylesheet" type="text/css" /> 
     <title>Purchase</title>
 </head>
 <body>
     <h1>Purchase Management</h1>
     <a href="/main.php">Back to Main</a>
     <a href="/inventory.php">Check Inventory</a>
+    <div class="flex">
+    <div class="list">
     <h2>Purchase List</h2>
     <table>
         <tr>
@@ -128,6 +131,8 @@
         }
         ?>
     </table>
+    </div>
+    <div>
     <?php if($mode=="purchase") { ?>
     <h2>New Purchase</h2>
     <form method="post" action="">
@@ -145,6 +150,8 @@
         <button type="submit">Back</button>
     </form>
     <?php } ?>
+    </div>
+    </div>
     <script>
         document.getElementById('quantity').addEventListener('change', function() {
             var quantity = this.value;
