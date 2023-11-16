@@ -1,0 +1,32 @@
+.flex {
+  display: flex;
+  /* justify-content: center; */
+}
+
+.list {
+  margin-right: 10rem;
+}
+
+.list_title {
+  text-align: center;
+}
+
+/* 모든 요소에 적용 */
+body {
+  background-color: black; /* 배경색을 검정색으로 설정 */
+  color: limegreen; /* 글씨 색을 밝은 초록색으로 설정 */
+  font-family: "Courier New", Courier, monospace; /* 해커스타일 폰트 설정 */
+}
+
+/* 선택적으로 다른 요소들에 대한 스타일도 정의할 수 있습니다 */
+a {
+  color: limegreen; /* 링크도 밝은 초록색으로 설정 */
+}
+
+/* 입력 필드에 대한 스타일 */
+input,
+textarea {
+  background-color: #333; /* 어두운 배경색 */
+  color: limegreen; /* 밝은 초록색 글씨 */
+  border: 1px solid limegreen; /* 초록색 테두리 */
+}
