@@ -8,7 +8,8 @@
 </head>
 <body>
     <h1>Restaurant Statistics</h1>
-
+    <a href="/main.php">Back to Main</a>
+    <a href="/purchase.php">Purchase ingredient</a>
     <!-- 날짜 선택 폼 -->
     <form action="" method="post">
         <label for="singleDate">Select Date for Daily Statistics:</label>
