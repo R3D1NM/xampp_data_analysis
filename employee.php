@@ -125,59 +125,67 @@
 <body>
     <h1>Employee Management</h1>
     <a href="/main.php">Back to Main</a>
-    <h2>Employee List</h2>
-    <table>
-        <tr>
-            <th>ID</th>
-            <th>Position</th>
-            <th>Salary</th>
-            <th>Name</th>
-            <th>Contact</th>
-            <th>Age</th>
-            <th>Hire_Date</th>
-            <th>Grade</th>
-        </tr>
-        <?php
-        foreach ($emp_list as $row) {
-            echo "<tr>";
-            echo "<td>" . $row['id'] . "</td>";
-            echo "<td>" . $row['position'] . "</td>";
-            echo "<td>" . $row['salary'] . "</td>";
-            echo "<td>" . $row['name'] . "</td>";
-            echo "<td>" . $row['contact'] . "</td>";
-            echo "<td>" . $row['age'] . "</td>";
-            echo "<td>" . $row['hire_date'] . "</td>";
-            echo "<td>" . $row['grade'] . "</td>";
-            echo "<td>";
-            echo "<form method='post' action=''>";
-            echo "<input type='hidden' name='mode' value='delete'>";
-            echo "<input type='hidden' name='delete_id' value='" . $row['id'] . "'>";
-            echo "<button type='submit'>Delete</button>";
-            echo "</form>";
-            echo "<form method='post' action=''>";
-            echo "<input type='hidden' name='update_id' value='" . $row['id'] . "'>";
-            echo "<input type='hidden' name='mode' value='select'>";
-            echo "<button type='submit'>Update</button>";
-            echo "</form>";
-            echo "</td>";
-            echo "</tr>";
-        }
-        ?>
-    </table>
-    <h2><?php echo $mode==="update" ? 'Update Employee' : 'Create New Employee' ?></h2>
-    <form method="post" action="">
-        <input type="hidden" name="mode" value="<?php echo $mode ?>">
-        <input type="hidden" name="update_id" value="<?php echo $mode==="update" ? $selected['id'] : '' ?>">
-        <p>Position <input type="text" name="position" value="<?php echo $mode==="update" ? $selected['position'] : '' ?>" required></p>
-        <p>Salary <input type="number" name="salary" value="<?php echo $mode==="update" ? $selected['salary'] : '' ?>" required></p>
-        <p>Name <input type="text" name="name" value="<?php echo $mode==="update" ? $selected['name'] : '' ?>" required></p>
-        <p>Contact <input type="tel" name="contact" placeholder="01012345678" value="<?php echo $mode==="update" ? $selected['contact'] : '' ?>" required pattern="[0-9]{3}[0-9]{4}[0-9]{4}"></p>
-        <p>Age <input type="number" name="age" value="<?php echo $mode==="update" ? $selected['age'] : '' ?>" required></p>
-        <p>Hire_Date <input type="date" name="hire_date" value="<?php echo $mode==="update" ? $selected['hire_date'] : '' ?>" required></p>
-        <p>Grade <input type="text" name="grade" value="<?php echo $mode==="update" ? $selected['grade'] : '' ?>" required></p>
-        <button type="submit"><?php echo $mode==="update" ? 'Update' : 'Create' ?></button>
-    </form>
-    <h1>Employee Salary Report</h1>
+    <div class="flex">
+        <div class="list">
+            <h2>Employee List</h2>
+            <table>
+                <tr>
+                    <th>ID</th>
+                    <th>Position</th>
+                    <th>Salary</th>
+                    <th>Name</th>
+                    <th>Contact</th>
+                    <th>Age</th>
+                    <th>Hire_Date</th>
+                    <th>Grade</th>
+                </tr>
+                <?php
+                foreach ($emp_list as $row) {
+                    echo "<tr>";
+                    echo "<td>" . $row['id'] . "</td>";
+                    echo "<td>" . $row['position'] . "</td>";
+                    echo "<td>" . $row['salary'] . "</td>";
+                    echo "<td>" . $row['name'] . "</td>";
+                    echo "<td>" . $row['contact'] . "</td>";
+                    echo "<td>" . $row['age'] . "</td>";
+                    echo "<td>" . $row['hire_date'] . "</td>";
+                    echo "<td>" . $row['grade'] . "</td>";
+                    echo "<td>";
+                    echo "<form method='post' action=''>";
+                    echo "<input type='hidden' name='mode' value='delete'>";
+                    echo "<input type='hidden' name='delete_id' value='" . $row['id'] . "'>";
+                    echo "<button type='submit'>Delete</button>";
+                    echo "</form>";
+                    echo "<form method='post' action=''>";
+                    echo "<input type='hidden' name='update_id' value='" . $row['id'] . "'>";
+                    echo "<input type='hidden' name='mode' value='select'>";
+                    echo "<button type='submit'>Update</button>";
+                    echo "</form>";
+                    echo "</td>";
+                    echo "</tr>";
+                }
+                ?>
+            </table>
+        </div>
+        <div class="panel">
+            <h2><?php echo $mode==="update" ? 'Update Employee' : 'Create New Employee' ?></h2>
+            <form method="post" action="">
+                <input type="hidden" name="mode" value="<?php echo $mode ?>">
+                <input type="hidden" name="update_id" value="<?php echo $mode==="update" ? $selected['id'] : '' ?>">
+                <p>Position <input type="text" name="position" value="<?php echo $mode==="update" ? $selected['position'] : '' ?>" required></p>
+                <p>Salary <input type="number" name="salary" value="<?php echo $mode==="update" ? $selected['salary'] : '' ?>" required></p>
+                <p>Name <input type="text" name="name" value="<?php echo $mode==="update" ? $selected['name'] : '' ?>" required></p>
+                <p>Contact <input type="tel" name="contact" placeholder="01012345678" value="<?php echo $mode==="update" ? $selected['contact'] : '' ?>" required pattern="[0-9]{3}[0-9]{4}[0-9]{4}"></p>
+                <p>Age <input type="number" name="age" value="<?php echo $mode==="update" ? $selected['age'] : '' ?>" required></p>
+                <p>Hire_Date <input type="date" name="hire_date" value="<?php echo $mode==="update" ? $selected['hire_date'] : '' ?>" required></p>
+                <p>Grade <input type="text" name="grade" value="<?php echo $mode==="update" ? $selected['grade'] : '' ?>" required></p>
+                <button type="submit"><?php echo $mode==="update" ? 'Update' : 'Create' ?></button>
+            </form>
+        </div>
+    </div>
+    
+    
+    <h2>Employee Salary Report</h2>
     <table>
         <tr>
             <th>Position</th>

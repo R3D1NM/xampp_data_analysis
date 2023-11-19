@@ -166,7 +166,6 @@
             <input type="hidden" name="update_id" value="<?php echo $mode==="update" ? $selected['id'] : '' ?>">
             <p>Menu <input type="text" name="menu" value="<?php echo $mode==="update" ? $selected['menu'] : '' ?>" required></p>
             <p>R_Table <input type="text" name="r_table" value="<?php echo $mode==="update" ? $selected['r_table'] : '' ?>" required></p>
-            <p>Order_Time <input type="datetime-local" name="order_time" value="<?php echo $mode==="update" ? $selected['order_time'] : '' ?>" required></p>
             <p>Payment 
                 <select name="payment" required>
                     <option value="Cash" <?php echo ($mode==="update" && $selected['payment'] === 'Cash') ? 'selected' : '' ?>>Cash</option>

@@ -37,7 +37,7 @@
         <li><a href="/purchase.php">Manage Purchase</a></li>
         <li><a href="/order.php">Manage Order</a></li>
         <li><a href="/reservation.php">Manage Reservation</a></li>
-        <li><a href="/statistic.php">Daily Statistic</a></li>
+        <li><a href="/statistic.php">Statistic</a></li>
         <li><a href="/employee.php">Manage Employee</a></li>
 
     </ul>
