@@ -9,7 +9,6 @@
 <body>
     <h1>Restaurant Statistics</h1>
     <a href="/main.php">Back to Main</a>
-    <a href="/purchase.php">Purchase ingredient</a>
     <!-- 날짜 선택 폼 -->
     <form action="" method="post">
         <label for="singleDate">Select Date for Daily Statistics:</label>
@@ -87,6 +86,27 @@
             $stmt->close();
         }
     }
+
+    // Add this code inside the PHP section after your existing database queries
+
+    // SQL query to get customer performance details
+    $query = "SELECT customer AS customer_id, guests_number, count(*) AS count FROM RESERVATIONS GROUP BY 1,2 ORDER BY 3 DESC";
+    $result = $conn->query($query);
+
+    if ($result->num_rows > 0) {
+        // Preparing to display the results in an HTML table
+        echo "<h2>Customer Performance Details</h2>";
+        echo "<table border='1'><tr><th>Customer ID</th><th>Guests Number</th><th>Count</th></tr>";
+
+        // Fetch and display each row of data
+        while($row = $result->fetch_assoc()) {
+            echo "<tr><td>" . $row["customer_id"]. "</td><td>" . $row["guests_number"] . "</td><td>" . $row["count"] . "</td></tr>";
+        }
+        echo "</table>";
+    } else {
+        echo "No results found.";
+    }
+
 
     // 데이터베이스 연결 닫기
     $conn->close();
