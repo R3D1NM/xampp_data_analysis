@@ -49,7 +49,6 @@
                 $mode = "create";
                 break;
             case 'create':
-                $restaurant = $_POST['restaurant'];
                 $customer = $_POST['customer'];
                 $date = $_POST['date'];
                 $time = $_POST['time'];
@@ -69,7 +68,6 @@
             case 'update':
                 if (isset($_POST['update_id'])) {
                     $update_id = $_POST['update_id'];
-                    $restaurant = $_POST['restaurant'];
                     $customer = $_POST['customer'];
                     $date = $_POST['date'];
                     $time = $_POST['time'];
@@ -129,7 +127,6 @@
             <table>
                 <tr>
                     <th>ID</th>
-                    <th>Restaurant</th>
                     <th>Customer</th>
                     <th>Date</th>
                     <th>Time</th>
@@ -140,7 +137,6 @@
                 foreach ($reserv_list as $row) {
                     echo "<tr>";
                     echo "<td>" . $row['id'] . "</td>";
-                    echo "<td>" . $row['restaurant'] . "</td>";
                     echo "<td>" . $row['customer'] . "</td>";
                     echo "<td>" . $row['date'] . "</td>";
                     echo "<td>" . $row['time'] . "</td>";
@@ -168,7 +164,6 @@
             <form method="post" action="">
                 <input type="hidden" name="mode" value="<?php echo $mode ?>">
                 <input type="hidden" name="update_id" value="<?php echo $mode==="update" ? $selected['id'] : '' ?>">
-                <p>Restaurant <input type="text" name="restaurant" value="<?php echo $mode==="update" ? $selected['restaurant'] : '' ?>" required></p>
                 <p>Customer <input type="text" name="customer" value="<?php echo $mode==="update" ? $selected['customer'] : '' ?>" required></p>
                 <p>Date <input type="date" name="date" value="<?php echo $mode==="update" ? $selected['date'] : '' ?>" required></p>
                 <p>Time <input type="time" name="time" value="<?php echo $mode==="update" ? $selected['time'] : '' ?>" required></p>

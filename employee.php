@@ -129,7 +129,6 @@
     <table>
         <tr>
             <th>ID</th>
-            <th>Restaurant</th>
             <th>Position</th>
             <th>Salary</th>
             <th>Name</th>
@@ -142,7 +141,6 @@
         foreach ($emp_list as $row) {
             echo "<tr>";
             echo "<td>" . $row['id'] . "</td>";
-            echo "<td>" . $row['restaurant'] . "</td>";
             echo "<td>" . $row['position'] . "</td>";
             echo "<td>" . $row['salary'] . "</td>";
             echo "<td>" . $row['name'] . "</td>";
@@ -170,7 +168,6 @@
     <form method="post" action="">
         <input type="hidden" name="mode" value="<?php echo $mode ?>">
         <input type="hidden" name="update_id" value="<?php echo $mode==="update" ? $selected['id'] : '' ?>">
-        <p>Restaurant <input type="text" name="restaurant" value="<?php echo $mode==="update" ? $selected['restaurant'] : '' ?>" required></p>
         <p>Position <input type="text" name="position" value="<?php echo $mode==="update" ? $selected['position'] : '' ?>" required></p>
         <p>Salary <input type="number" name="salary" value="<?php echo $mode==="update" ? $selected['salary'] : '' ?>" required></p>
         <p>Name <input type="text" name="name" value="<?php echo $mode==="update" ? $selected['name'] : '' ?>" required></p>

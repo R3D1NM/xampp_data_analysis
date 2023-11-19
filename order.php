@@ -49,7 +49,6 @@
                 $mode = "create";
                 break;
             case 'create':
-                $restaurant = $_POST['restaurant'];
                 $menu = $_POST['menu'];
                 $r_table = $_POST['r_table'];
                 $order_time = $_POST['order_time'];
@@ -69,7 +68,6 @@
             case 'update':
                 if (isset($_POST['update_id'])) {
                     $update_id = $_POST['update_id'];
-                    $restaurant = $_POST['restaurant'];
                     $menu = $_POST['menu'];
                     $r_table = $_POST['r_table'];
                     $order_time = $_POST['order_time'];
@@ -129,7 +127,6 @@
             <table>
                 <tr>
                     <th>ID</th>
-                    <th>Restaurant</th>
                     <th>Menu</th>
                     <th>R_Table</th>
                     <th>Order_Time</th>
@@ -140,7 +137,6 @@
                 foreach ($orders_list as $row) {
                     echo "<tr>";
                     echo "<td>" . $row['id'] . "</td>";
-                    echo "<td>" . $row['restaurant'] . "</td>";
                     echo "<td>" . $row['menu'] . "</td>";
                     echo "<td>" . $row['r_table'] . "</td>";
                     echo "<td>" . $row['order_time'] . "</td>";
@@ -168,14 +164,13 @@
             <form method="post" action="">
             <input type="hidden" name="mode" value="<?php echo $mode ?>">
             <input type="hidden" name="update_id" value="<?php echo $mode==="update" ? $selected['id'] : '' ?>">
-            <p>Restaurant <input type="text" name="restaurant" value="<?php echo $mode==="update" ? $selected['restaurant'] : '' ?>" required></p>
             <p>Menu <input type="text" name="menu" value="<?php echo $mode==="update" ? $selected['menu'] : '' ?>" required></p>
             <p>R_Table <input type="text" name="r_table" value="<?php echo $mode==="update" ? $selected['r_table'] : '' ?>" required></p>
             <p>Order_Time <input type="datetime-local" name="order_time" value="<?php echo $mode==="update" ? $selected['order_time'] : '' ?>" required></p>
             <p>Payment 
                 <select name="payment" required>
-                    <option value="Cash" <?php echo ($mode==="update" && $selected['cash'] === 'Yes') ? 'selected' : '' ?>>Cash</option>
-                    <option value="Card" <?php echo ($mode==="update" && $selected['cash'] === 'No') ? 'selected' : '' ?>>Card</option>
+                    <option value="Cash" <?php echo ($mode==="update" && $selected['payment'] === 'Cash') ? 'selected' : '' ?>>Cash</option>
+                    <option value="Card" <?php echo ($mode==="update" && $selected['payment'] === 'Card') ? 'selected' : '' ?>>Card</option>
                 </select>
             </p>
             <p>Price <input type="number" name="price" value="<?php echo $mode==="update" ? $selected['price'] : '' ?>" required></p>
